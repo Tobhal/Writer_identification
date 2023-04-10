@@ -11,9 +11,9 @@ from Util import h_from_image, division
 
 @njit
 def reduction_from_49_to_16(b, count):
-    nc1 = np.zeros((9, 9, 4))
-    nc2 = np.zeros((5, 5, 16))
-    app = np.zeros((64,))
+    nc1 = np.zeros((9, 9, 4), dtype=np.float)
+    nc2 = np.zeros((5, 5, 16), dtype=np.float)
+    app = np.zeros((64,), dtype=np.float)
     nc = b
     h = 0
 
@@ -89,7 +89,7 @@ def chain_code(img, print_values=False, img_show=False) -> ndarray:
         for j in range(h9, h2, 1):
             if image_a[i][j] == 0:
                 b1[i][j] = 0
-            else:
+            else:   # This should be a elif (form the c++ code)
                 if image_a[i][j] == 1:
 
                     if image_a[i][j + 1] == 1 and image_a[i - 1][j + 1] == 1 and image_a[i - 1][j] == 1 and \
@@ -101,6 +101,7 @@ def chain_code(img, print_values=False, img_show=False) -> ndarray:
                     else:
                         b1[i][j] = 3
 
+    # image_a should be a copy of image, if this is not the case this is a error
     for i in range(h3, h4 + 1):
         if image_a[i][h1] == 0:
             b1[i][h1] = 0

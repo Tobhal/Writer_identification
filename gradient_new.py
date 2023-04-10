@@ -113,11 +113,11 @@ def gradient(img, print_values=False) -> ndarray:
 
     # 4: 
     for i in range(ro):
-        img1[i][co - 1] = (img1[i][co - 1] + img1[i][co - 2]) / 2
+        img1[i][co] = (img1[i][co - 1] + img1[i][co - 2]) / 2
     for j in range(co):
-        img1[ro - 1][j] = (img1[ro - 1][j] + img1[ro - 2][j]) / 2
+        img1[ro][j] = (img1[ro - 1][j] + img1[ro - 2][j]) / 2
 
-    img1[ro - 1][co - 1] = (img1[ro - 1][co - 1] + img1[ro - 2][co - 2]) / 2
+    img1[ro][co] = (img1[ro - 1][co - 1] + img1[ro - 2][co - 2]) / 2
 
     for m in range(0, 9):
         for n in range(0, 9):
@@ -134,8 +134,10 @@ def gradient(img, print_values=False) -> ndarray:
             y, z, s1, t = int(y), int(z), int(s1), int(t)
             for i in range(y, z - 1):
                 for j in range(s1, t - 1):
-                    delu = img1[i + 1][j] - img1[i][j]
-                    delv = img1[i][j + 1] - img1[i][j]
+                    # delu = img1[i+1][j] - img1[i][j]
+                    delu = img1[i+1][j+1] - img1[i][j]
+                    # delv = img1[i][j+1] - img1[i][j]
+                    delv = img1[i+1][j] - img1[i][j+1]
                     if delu == 0:
                         continue
                     else:
