@@ -32,7 +32,7 @@ def gradient(img, print_values=False) -> ndarray:
     nc2 = np.zeros((5, 5, 16))
     appe = np.zeros((400,))
 
-    h1, h2, h3, h4 = h_from_image(img)
+    h1, h2, h3, h4 = h_from_image(img, 300)
     ro = h4 - h3 + 1
     co = h2 - h1 + 1
 

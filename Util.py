@@ -37,13 +37,13 @@ def division(k, a, dim):
 
 
 @njit
-def h_from_image(image):
+def h_from_image(image, size):
     img, (row, col) = image, image.shape
 
     u = col - 1
     y1 = row - 1
 
-    c1, c2, c3, c4 = np.zeros(2300, ), np.zeros(2300, ), np.zeros(2300, ), np.zeros(2300, )
+    c1, c2, c3, c4 = np.zeros(size, ), np.zeros(size, ), np.zeros(size, ), np.zeros(size, )
 
     l1, l2, l3, l4 = 0, 0, 0, 0
 

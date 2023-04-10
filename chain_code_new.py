@@ -72,7 +72,7 @@ def chain_code(img, print_values=False, img_show=False) -> ndarray:
 
     b = np.zeros((7, 7, 4))
 
-    h1, h2, h3, h4 = h_from_image(img)
+    h1, h2, h3, h4 = h_from_image(img, 2300)
 
     ro = h4 - h3 + 1
     co = h2 - h1 + 1
