@@ -7,6 +7,7 @@ from numpy import ndarray
 
 from Util import h_from_image, division
 import math
+from PIL import Image
 from numba import njit
 
 
@@ -32,7 +33,7 @@ def gradient(img, print_values=False) -> ndarray:
     nc2 = np.zeros((5, 5, 16))
     appe = np.zeros((400,))
 
-    h1, h2, h3, h4 = h_from_image(img, 300)
+    h1, h2, h3, h4 = h_from_image(img, 2300)
     ro = h4 - h3 + 1
     co = h2 - h1 + 1
 
@@ -52,6 +53,7 @@ def gradient(img, print_values=False) -> ndarray:
         for i in range(h3, h4 + 1):
             for j in range(h1, h2 + 1):
                 s = img[i][j]
+                # Some of the statements here are changed
                 if h3 <= i <= h4 and h1 <= j + 1 <= h2:
                     s = s + img[i][j + 1]
                 if h3 <= i + 1 <= h4 and h1 <= j <= h2:
@@ -113,11 +115,11 @@ def gradient(img, print_values=False) -> ndarray:
 
     # 4: 
     for i in range(ro):
-        img1[i][co] = (img1[i][co - 1] + img1[i][co - 2]) / 2
+        img1[i][co-1] = (img1[i][co - 1] + img1[i][co - 2]) / 2
     for j in range(co):
-        img1[ro][j] = (img1[ro - 1][j] + img1[ro - 2][j]) / 2
+        img1[ro-1][j] = (img1[ro - 1][j] + img1[ro - 2][j]) / 2
 
-    img1[ro][co] = (img1[ro - 1][co - 1] + img1[ro - 2][co - 2]) / 2
+    img1[ro-1][co-1] = (img1[ro - 1][co - 1] + img1[ro - 2][co - 2]) / 2
 
     for m in range(0, 9):
         for n in range(0, 9):
@@ -134,10 +136,10 @@ def gradient(img, print_values=False) -> ndarray:
             y, z, s1, t = int(y), int(z), int(s1), int(t)
             for i in range(y, z - 1):
                 for j in range(s1, t - 1):
-                    # delu = img1[i+1][j] - img1[i][j]
-                    delu = img1[i+1][j+1] - img1[i][j]
-                    # delv = img1[i][j+1] - img1[i][j]
-                    delv = img1[i+1][j] - img1[i][j+1]
+                    delu = img1[i+1][j] - img1[i][j]
+                    # delu = img1[i+1][j+1] - img1[i][j]
+                    delv = img1[i][j+1] - img1[i][j]
+                    # delv = img1[i+1][j] - img1[i][j+1]
                     if delu == 0:
                         continue
                     else:
@@ -288,6 +290,15 @@ class MyTestCase(unittest.TestCase):
 """
 
 if __name__ == '__main__':
-    gradient('Bangla-writer-test/test_001.tif')
+    img = Image.open(f'test_001.png')
+
+    img = img.convert('L')
+    img = img.point(lambda x: 255 if x < 127 else 0, 'L')
+
+    img = np.asarray(img)
+
+    appe = gradient(img)
+
+    print(appe)
 
     # unittest.main()

@@ -1,5 +1,6 @@
 import time
 
+import PIL.ImageOps
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -50,7 +51,7 @@ def it_over_dir(dir: str):
                 img = Image.open(f'{folder}/{word}')
 
                 # convert to binary image
-                img = img.convert('L')
+                img = PIL.ImageOps.grayscale(img)
                 img = img.point(lambda x: 255 if x < 127 else 0, 'L')
 
                 img = np.asarray(img)
@@ -100,7 +101,7 @@ def main():
         # ('linear_SVC_C_hinge', svm.LinearSVC(C=18.0, loss='hinge')),
         # ('linear_SVC_penalty_l1', svm.LinearSVC(penalty='l1')),
         # ('linear_SVC_penalty_C', svm.LinearSVC(penalty='l1', C=18.0))
-        ('SVC', svm.SVC()),
+        ('SVC', svm.SVC(C=1, kernel='rbf', gamma=18)),
         # ('linear_SVC', svm.LinearSVC()),
         # ('Nu_SVC', svm.NuSVC()),
         # ('SVR', svm.SVR()),
